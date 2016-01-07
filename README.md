@@ -58,7 +58,7 @@ generates random key and return address, privateKey and publicKey in an object
 creates m of n multisig address from n public keys in hex format 
 #### example (2 of 2)
 ```javascript
-var publicKeys = ["035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d34", "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483]
+var publicKeys = ["035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d34", "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483"] 
 bitcoinutil.getMultisigAddress(2, publicKeys)
 ``` 
 #### result

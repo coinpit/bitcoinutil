@@ -4,7 +4,7 @@
   "description": "commonly used bitcoin functions",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha specs/*.js"
   },
   "repository": {
     "type": "git",
