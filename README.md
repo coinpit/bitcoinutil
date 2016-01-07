@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/coinpit/bitcoinutil.svg?style=shield)](https://circleci.com/gh/coinpit/bitcoinutil)
+
 # bitcoinutil 
 Commonly used bitcoin functions
 
