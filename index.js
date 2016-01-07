@@ -1,46 +1,43 @@
-# bitcoinutil 
-Commonly used bitcoin functions
+var bitcoin = require('bitcoinjs-lib')
+var crypto  = require('crypto')
+var assert  = require('assert')
+var fixed   = require('mangler').fixed
 
-## install
-```
-npm install bitcoinutil --save
-```
+module.exports = function (networkString) {
 
-## import
-### testnet
-```
-var bitcoinutil = require("bitcoinutil")("testnet")
-```
-### livenet
-```
-var bitcoinutil = require("bitcoinutil")("bitcoin")
-```
+  var bitcoinutil = {}
+  var network     = bitcoin.networks[networkString]
 
-## methods
-### bitcoinutil.isValidBitcoinAddress(address)
-address: public key in base58 format
-returns: true for valid address 
+  bitcoinutil.isValidBitcoinAddress = function (address) {
+    try {
+      bitcoin.Address.fromBase58Check(address, network)
+      return true
+    }
+    catch (e) {
+      return false
+    }
+  }
 
-### bitcoinutil.toAddress(publicKey)
-publicKey: public key in base58 format
-returns  : public key in hex format
+  bitcoinutil.toAddress = function (publicKey) {
+    return bitcoin.ECPubKey.fromHex(publicKey).getAddress(network).toString()
+  }
 
-### bitcoinutil.addressFromPrivateKey(privateKey)
-privateKey: in WIF format
-returns   : address, privateKey and publicKey in an object
+  bitcoinutil.addressFromPrivateKey = function (privateKey) {
+    var key = bitcoin.ECKey.fromWIF(privateKey)
+    return bitcoinutil.makeAddress(key)
+  }
 
-#### example
-```javascript
+  bitcoinutil.makeAddress = function (key) {
+    return {
+      address   : key.pub.getAddress(network).toString(),
+      privateKey: key.toWIF(network),
+      publicKey : key.pub.toHex()
+    }
+  }
 
-```
-
-### bitcoinutil.makeRandom()
-generates random key and return address, privateKey and publicKey in an object
- 
-
-  bitcoinutil.getAddress = function (publicKey) {
-    var ecPubKey = bitcoin.ECPubKey.fromHex(publicKey)
-    return ecPubKey.getAddress(network).toString();
+  bitcoinutil.makeRandom = function () {
+    var key = bitcoin.ECKey.makeRandom()
+    return bitcoinutil.makeAddress(key)
   }
 
   bitcoinutil.getPublicKey = function (privateKey) {
@@ -59,8 +56,6 @@ generates random key and return address, privateKey and publicKey in an object
     var multisigAddress = new bitcoin.Address(mshash, network.scriptHash).toString();
     return { address: multisigAddress, redeem: multisig.buffer.toString('hex') }
   }
-
-
 
   bitcoinutil.sign = function (txInput) {
     var tx     = bitcoin.Transaction.fromHex(txInput.tx)
@@ -89,7 +84,7 @@ generates random key and return address, privateKey and publicKey in an object
   bitcoinutil.containsInput = function (ins, input) {
     var keys = Object.keys(ins)
     for (var i = 0; i < keys.length; i++) {
-      var txin = ins[keys[i]];
+      var txin      = ins[keys[i]];
       var script    = ins[txin].script
       var accountid = bitcoinutil.addressFromP2SHScript(script)
       if (accountid === input) return true
@@ -100,7 +95,7 @@ generates random key and return address, privateKey and publicKey in an object
   bitcoinutil.containsOutput = function (outs, output) {
     var keys = Object.keys(outs)
     for (var i = 0; i < keys.length; i++) {
-      var script = outs[keys[i]].script;
+      var script        = outs[keys[i]].script;
       var serverAddress = bitcoin.Address.fromOutputScript(script, network).toBase58Check()
       if (serverAddress == output) return true
     }
@@ -114,3 +109,6 @@ generates random key and return address, privateKey and publicKey in an object
   bitcoinutil.btcfy = function (satoshi) {
     return fixed(satoshi / 100000000)
   }
+
+  return bitcoinutil
+}

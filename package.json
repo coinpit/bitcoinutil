@@ -1,0 +1,31 @@
+{
+  "name": "bitcoinutil",
+  "version": "0.0.0",
+  "description": "commonly used bitcoin functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coinpit/bitcoinutil.git"
+  },
+  "keywords": [
+    "bitcoin"
+  ],
+  "author": "coinpit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coinpit/bitcoinutil/issues"
+  },
+  "homepage": "https://github.com/coinpit/bitcoinutil#readme",
+  "dependencies": {
+    "bitcoinjs-lib": "^1.5.7",
+    "mangler": "^1.0.1"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "fixtures.js": "^2.1.0",
+    "mocha": "^2.3.4"
+  }
+}
