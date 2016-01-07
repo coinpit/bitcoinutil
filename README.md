@@ -31,86 +31,52 @@ returns   : address, privateKey and publicKey in an object
 
 #### example
 ```javascript
-
+var priv = "L56nAFJCUMuAUF1zp8e4Bhdq8S25kcFD5YrLTnys3ha8QK65dj8P"
+bitcoinutil.addressFromPrivateKey(priv)
+```
+#### result
+```
+{
+    "address"   : "mjsXa5HBdemtrjFZeLUB1D3NetupVNxFyN",
+    "privateKey": "L56nAFJCUMuAUF1zp8e4Bhdq8S25kcFD5YrLTnys3ha8QK65dj8P",
+    "publicKey" : "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483"
+}
 ```
 
 ### bitcoinutil.makeRandom()
 generates random key and return address, privateKey and publicKey in an object
- 
+#### result
+```
+{
+    "address"   : "mjsXa5HBdemtrjFZeLUB1D3NetupVNxFyN",
+    "privateKey": "L56nAFJCUMuAUF1zp8e4Bhdq8S25kcFD5YrLTnys3ha8QK65dj8P",
+    "publicKey" : "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483"
+}
+```
 
-  bitcoinutil.getAddress = function (publicKey) {
-    var ecPubKey = bitcoin.ECPubKey.fromHex(publicKey)
-    return ecPubKey.getAddress(network).toString();
-  }
+###  bitcoinutil.getMultisigAddress(m, publicKeys)
+creates m of n multisig address from n public keys in hex format 
+#### example (2 of 2)
+```javascript
+var publicKeys = ["035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d34", "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483]
+bitcoinutil.getMultisigAddress(2, publicKeys)
+``` 
+#### result
+```
+{
+    "address": "2N4htmodeibCZVtLKRX9EFg8RGL4xdifi6x",
+    "redeem" : "5221035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d342103abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb51548352ae"
+}
+```
 
-  bitcoinutil.getPublicKey = function (privateKey) {
-    var myPrivateKey = bitcoin.ECKey.fromWIF(privateKey)
-    return myPrivateKey.pub.toHex()
-  }
+### bitcoinutil.sign(tx, privateKey, redeem, isIncomplete)
+tx          : transaction to be signed (required)
+privateKey  : private key used for signing (required)
+redeem      : if multisig/p2sh, redeem script is required
+isIncomplete: value is true if tx is partially built i.e. more signatures are needed
 
-  bitcoinutil.getMultisigAddress = function (n, addresses) {
-    addresses           = Buffer.isBuffer(addresses[0]) ? addresses : addresses.sort();
-    var ecKeyAddress    = addresses.map(function (address) {
-      var buf = Buffer.isBuffer(address) ? address : new Buffer(address, 'hex')
-      return bitcoin.ECPubKey.fromBuffer(buf)
-    })
-    var multisig        = bitcoin.scripts.multisigOutput(n, ecKeyAddress)
-    var mshash          = bitcoin.crypto.hash160(multisig.buffer)
-    var multisigAddress = new bitcoin.Address(mshash, network.scriptHash).toString();
-    return { address: multisigAddress, redeem: multisig.buffer.toString('hex') }
-  }
+### bitcoinutil.satoshify(btc)
+converts btc to satoshi
 
-
-
-  bitcoinutil.sign = function (txInput) {
-    var tx     = bitcoin.Transaction.fromHex(txInput.tx)
-    var txb    = bitcoin.TransactionBuilder.fromTransaction(tx)
-    var redeem = txInput.redeem && bitcoin.Script.fromHex(txInput.redeem)
-    var ecKey  = bitcoin.ECKey.fromWIF(txInput.privateKey)
-    txb.inputs.forEach(function (input, index) {
-      txb.sign(index, ecKey, redeem)
-    })
-    return txInput.incomplete ? txb.buildIncomplete().toHex() : txb.build().toHex();
-  }
-
-  bitcoinutil.addressFromP2SHScript = function (script) {
-    var chunks = script.chunks
-    return bitcoinutil.addressFromBuffer(chunks[3], network.scriptHash)
-  }
-
-  bitcoinutil.addressFromBuffer = function (buffer, hashType) {
-    return new bitcoin.Address(bitcoin.crypto.hash160(buffer), hashType).toBase58Check()
-  }
-
-  bitcoinutil.hash160 = function (input) {
-    return bitcoin.crypto.hash160(new Buffer(input, "utf8")).toString('hex')
-  }
-
-  bitcoinutil.containsInput = function (ins, input) {
-    var keys = Object.keys(ins)
-    for (var i = 0; i < keys.length; i++) {
-      var txin = ins[keys[i]];
-      var script    = ins[txin].script
-      var accountid = bitcoinutil.addressFromP2SHScript(script)
-      if (accountid === input) return true
-    }
-    return false
-  }
-
-  bitcoinutil.containsOutput = function (outs, output) {
-    var keys = Object.keys(outs)
-    for (var i = 0; i < keys.length; i++) {
-      var script = outs[keys[i]].script;
-      var serverAddress = bitcoin.Address.fromOutputScript(script, network).toBase58Check()
-      if (serverAddress == output) return true
-    }
-    return false
-  }
-
-  bitcoinutil.satoshify = function (btc) {
-    return fixed(btc * 100000000)
-  }
-
-  bitcoinutil.btcfy = function (satoshi) {
-    return fixed(satoshi / 100000000)
-  }
+### bitcoinutil.btcfy(satoshi)
+converts satoshi to btc

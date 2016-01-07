@@ -1,6 +1,7 @@
 var bitcoin = require('bitcoinjs-lib')
 var crypto  = require('crypto')
 var assert  = require('assert')
+var base58  = require('bs58')
 var fixed   = require('mangler').fixed
 
 module.exports = function (networkString) {
@@ -9,13 +10,19 @@ module.exports = function (networkString) {
   var network     = bitcoin.networks[networkString]
 
   bitcoinutil.isValidBitcoinAddress = function (address) {
-    try {
-      bitcoin.Address.fromBase58Check(address, network)
-      return true
+    var buffer      = new Buffer(base58.decode(address))
+    var payload     = buffer.slice(0, -4)
+    var checksum    = buffer.slice(-4)
+    var newChecksum = sha256x2(payload).slice(0, 4)
+    for (var i = 0; i < newChecksum.length; ++i) {
+      if (newChecksum[i] !== checksum[i]) return false
     }
-    catch (e) {
-      return false
-    }
+    return true
+  }
+
+  function sha256x2(buffer) {
+    buffer = crypto.createHash('sha256').update(buffer).digest()
+    return crypto.createHash('sha256').update(buffer).digest()
   }
 
   bitcoinutil.toAddress = function (publicKey) {
@@ -24,10 +31,10 @@ module.exports = function (networkString) {
 
   bitcoinutil.addressFromPrivateKey = function (privateKey) {
     var key = bitcoin.ECKey.fromWIF(privateKey)
-    return bitcoinutil.makeAddress(key)
+    return makeAddress(key)
   }
 
-  bitcoinutil.makeAddress = function (key) {
+  function makeAddress(key) {
     return {
       address   : key.pub.getAddress(network).toString(),
       privateKey: key.toWIF(network),
@@ -37,7 +44,7 @@ module.exports = function (networkString) {
 
   bitcoinutil.makeRandom = function () {
     var key = bitcoin.ECKey.makeRandom()
-    return bitcoinutil.makeAddress(key)
+    return makeAddress(key)
   }
 
   bitcoinutil.getPublicKey = function (privateKey) {
@@ -57,49 +64,17 @@ module.exports = function (networkString) {
     return { address: multisigAddress, redeem: multisig.buffer.toString('hex') }
   }
 
-  bitcoinutil.sign = function (txInput) {
-    var tx     = bitcoin.Transaction.fromHex(txInput.tx)
+  bitcoinutil.sign = function (txhex, privateKeyWIF, redeemHex, isIncomplete) {
+    assert(txhex, "txhex is required")
+    assert(privateKeyWIF, "privateKey is required")
+    var tx     = bitcoin.Transaction.fromHex(txhex)
     var txb    = bitcoin.TransactionBuilder.fromTransaction(tx)
-    var redeem = txInput.redeem && bitcoin.Script.fromHex(txInput.redeem)
-    var ecKey  = bitcoin.ECKey.fromWIF(txInput.privateKey)
+    var redeem = redeemHex && bitcoin.Script.fromHex(redeemHex)
+    var ecKey  = bitcoin.ECKey.fromWIF(privateKeyWIF)
     txb.inputs.forEach(function (input, index) {
       txb.sign(index, ecKey, redeem)
     })
-    return txInput.incomplete ? txb.buildIncomplete().toHex() : txb.build().toHex();
-  }
-
-  bitcoinutil.addressFromP2SHScript = function (script) {
-    var chunks = script.chunks
-    return bitcoinutil.addressFromBuffer(chunks[3], network.scriptHash)
-  }
-
-  bitcoinutil.addressFromBuffer = function (buffer, hashType) {
-    return new bitcoin.Address(bitcoin.crypto.hash160(buffer), hashType).toBase58Check()
-  }
-
-  bitcoinutil.hash160 = function (input) {
-    return bitcoin.crypto.hash160(new Buffer(input, "utf8")).toString('hex')
-  }
-
-  bitcoinutil.containsInput = function (ins, input) {
-    var keys = Object.keys(ins)
-    for (var i = 0; i < keys.length; i++) {
-      var txin      = ins[keys[i]];
-      var script    = ins[txin].script
-      var accountid = bitcoinutil.addressFromP2SHScript(script)
-      if (accountid === input) return true
-    }
-    return false
-  }
-
-  bitcoinutil.containsOutput = function (outs, output) {
-    var keys = Object.keys(outs)
-    for (var i = 0; i < keys.length; i++) {
-      var script        = outs[keys[i]].script;
-      var serverAddress = bitcoin.Address.fromOutputScript(script, network).toBase58Check()
-      if (serverAddress == output) return true
-    }
-    return false
+    return isIncomplete ? txb.buildIncomplete().toHex() : txb.build().toHex();
   }
 
   bitcoinutil.satoshify = function (btc) {
