@@ -18,6 +18,9 @@
   "bugs": {
     "url": "https://github.com/coinpit/bitcoinutil/issues"
   },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
   "homepage": "https://github.com/coinpit/bitcoinutil#readme",
   "dependencies": {
     "bitcoinjs-lib": "^1.5.7",
