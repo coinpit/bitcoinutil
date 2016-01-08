@@ -26,15 +26,12 @@ describe("bitcoinutil", function () {
     var result = bitcoinutil.getMultisigAddress(2, [fixtures.address.publicKey, fixtures.address1.publicKey])
     expect(result).to.be.eql(fixtures.multisig)
   })
-  it("sign", function () {
-    var tx         = fixtures.sign.withdrawtx
-    var key2of2    = fixtures.sign.user2of2Key
-    var redeem     = key2of2.redeem
-    var privateKey = key2of2.privateKeys[0]
-    var signedTx   = bitcoinutil.sign(tx, privateKey, redeem)
-    expect(signedTx).to.be.eql(fixtures.sign.signedtx)
+  fixtures.sign.forEach(function(test, i){
+    it("sign " + i, function(){
+      var result = bitcoinutil.sign(test.tx, test.privateKey, test.redeem, test.incomplete)
+      expect(result).to.eql(test.expected)
+    })
   })
-
 })
 
 describe("satoshify", function(){

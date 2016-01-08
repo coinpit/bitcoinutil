@@ -26,51 +26,59 @@ module.exports = function (networkString) {
   }
 
   bitcoinutil.toAddress = function (publicKey) {
-    return bitcoin.ECPubKey.fromHex(publicKey).getAddress(network).toString()
+    return bitcoin.ECPair.fromPublicKeyBuffer(fromHex(publicKey), network).getAddress()
   }
 
   bitcoinutil.addressFromPrivateKey = function (privateKey) {
-    var key = bitcoin.ECKey.fromWIF(privateKey)
+    var key = bitcoin.ECPair.fromWIF(privateKey, network)
     return makeAddress(key)
   }
 
   function makeAddress(key) {
     return {
-      address   : key.pub.getAddress(network).toString(),
-      privateKey: key.toWIF(network),
-      publicKey : key.pub.toHex()
+      address   : key.getAddress(),
+      privateKey: key.toWIF(),
+      publicKey : toHex(key.getPublicKeyBuffer())
     }
   }
 
   bitcoinutil.makeRandom = function () {
-    var key = bitcoin.ECKey.makeRandom()
+    var key     = bitcoin.ECPair.makeRandom()
+    key.network = network
     return makeAddress(key)
   }
 
   bitcoinutil.getPublicKey = function (privateKey) {
-    var myPrivateKey = bitcoin.ECKey.fromWIF(privateKey)
-    return myPrivateKey.pub.toHex()
+    var myPrivateKey = bitcoin.ECPair.fromWIF(privateKey, network)
+    return toHex(myPrivateKey.getPublicKeyBuffer())
+  }
+
+  function toHex(buffer) {
+    return buffer.toString('hex')
+  }
+
+  function fromHex(hex) {
+    return new Buffer(hex,'hex')
   }
 
   bitcoinutil.getMultisigAddress = function (n, addresses) {
     addresses           = Buffer.isBuffer(addresses[0]) ? addresses : addresses.sort();
-    var ecKeyAddress    = addresses.map(function (address) {
-      var buf = Buffer.isBuffer(address) ? address : new Buffer(address, 'hex')
-      return bitcoin.ECPubKey.fromBuffer(buf)
+    var addressBuffer    = addresses.map(function (address) {
+      return Buffer.isBuffer(address) ? address : fromHex(address)
     })
-    var multisig        = bitcoin.scripts.multisigOutput(n, ecKeyAddress)
-    var mshash          = bitcoin.crypto.hash160(multisig.buffer)
-    var multisigAddress = new bitcoin.Address(mshash, network.scriptHash).toString();
-    return { address: multisigAddress, redeem: multisig.buffer.toString('hex') }
+    var multisig        = bitcoin.script.multisigOutput(n, addressBuffer)
+    var scriptPubKey = bitcoin.script.scriptHashOutput(bitcoin.crypto.hash160(multisig))
+    var multisigAddress = bitcoin.address.fromOutputScript(scriptPubKey, network)
+    return { address: multisigAddress, redeem: toHex(multisig) }
   }
 
   bitcoinutil.sign = function (txhex, privateKeyWIF, redeemHex, isIncomplete) {
     assert(txhex, "txhex is required")
     assert(privateKeyWIF, "privateKey is required")
     var tx     = bitcoin.Transaction.fromHex(txhex)
-    var txb    = bitcoin.TransactionBuilder.fromTransaction(tx)
-    var redeem = redeemHex && bitcoin.Script.fromHex(redeemHex)
-    var ecKey  = bitcoin.ECKey.fromWIF(privateKeyWIF)
+    var txb    = bitcoin.TransactionBuilder.fromTransaction(tx, network)
+    var redeem = redeemHex && fromHex(redeemHex)
+    var ecKey  = bitcoin.ECPair.fromWIF(privateKeyWIF, network)
     txb.inputs.forEach(function (input, index) {
       txb.sign(index, ecKey, redeem)
     })

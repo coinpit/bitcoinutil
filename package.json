@@ -1,6 +1,6 @@
 {
   "name": "bitcoinutil",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "commonly used bitcoin functions",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/coinpit/bitcoinutil#readme",
   "dependencies": {
-    "bitcoinjs-lib": "^1.5.7",
+    "bitcoinjs-lib": "^2.1.4",
     "bs58": "^3.0.0",
     "mangler": "^1.0.1"
   },
