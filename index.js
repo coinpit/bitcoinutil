@@ -85,6 +85,14 @@ module.exports = function (networkString) {
     return isIncomplete ? txb.buildIncomplete().toHex() : txb.build().toHex();
   }
 
+  bitcoinutil.hash160 = function(input){
+    return bitcoin.crypto.hash160(new Buffer(input, "utf8")).toString('hex')
+  }
+
+  bitcoinutil.hash256 = function(input){
+    return bitcoin.crypto.hash256(new Buffer(input, "utf8")).toString('hex')
+  }
+
   bitcoinutil.satoshify = function (btc) {
     return fixed(btc * 100000000)
   }

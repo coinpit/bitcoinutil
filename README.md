@@ -82,3 +82,9 @@ converts btc to satoshi
 
 ### bitcoinutil.btcfy(satoshi)
 converts satoshi to btc
+
+### bitcoinutil.hash160(input)
+returns ripemd160 of sha256(input)
+
+### bitcoinutil.hash256(input)
+returns sha256 of sha256(input)

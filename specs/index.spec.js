@@ -26,26 +26,42 @@ describe("bitcoinutil", function () {
     var result = bitcoinutil.getMultisigAddress(2, [fixtures.address.publicKey, fixtures.address1.publicKey])
     expect(result).to.be.eql(fixtures.multisig)
   })
-  fixtures.sign.forEach(function(test, i){
-    it("sign " + i, function(){
+  fixtures.sign.forEach(function (test, i) {
+    it("sign " + i, function () {
       var result = bitcoinutil.sign(test.tx, test.privateKey, test.redeem, test.incomplete)
       expect(result).to.eql(test.expected)
     })
   })
 })
 
-describe("satoshify", function(){
-  fixtures.satoshify.forEach(function(test, i){
-    it("btc " + test.input + " to sat " + test.expected, function(){
+describe("satoshify", function () {
+  fixtures.satoshify.forEach(function (test, i) {
+    it("btc " + test.input + " to sat " + test.expected, function () {
       expect(bitcoinutil.satoshify(test.input)).to.be.eql(test.expected)
     })
   })
 })
 
-describe("btcfy", function(){
-  fixtures.btcfy.forEach(function(test, i){
-    it("sat " + test.input + " to btc " + test.expected, function(){
+describe("btcfy", function () {
+  fixtures.btcfy.forEach(function (test, i) {
+    it("sat " + test.input + " to btc " + test.expected, function () {
       expect(bitcoinutil.btcfy(test.input)).to.be.eql(test.expected)
+    })
+  })
+})
+
+describe("hash160", function () {
+  fixtures.hash160.forEach(function (test, i) {
+    it(i + ":" + test.input + " => " + test.expected, function () {
+      expect(bitcoinutil.hash160(test.input)).to.be.eql(test.expected)
+    })
+  })
+})
+
+describe("hash256", function () {
+  fixtures.hash256.forEach(function (test, i) {
+    it(i + ":" + test.input + " => " + test.expected, function () {
+      expect(bitcoinutil.hash256(test.input)).to.be.eql(test.expected)
     })
   })
 })
