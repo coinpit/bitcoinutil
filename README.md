@@ -88,3 +88,16 @@ returns ripemd160 of sha256(input)
 
 ### bitcoinutil.hash256(input)
 returns sha256 of sha256(input)
+
+### bitcoinutil.signMessage(privateKey, message)
+privateKey  : private key in wif format used for signing 
+message     : Message to be signed
+returns signature in base64 format
+
+### bitcoinutil.verifyMessage(address, signature, message)
+address     : bitcoin address of the private key used in signing the message 
+signature   : signature of message in base64 format 
+message     : Message signed
+result true or false
+
+

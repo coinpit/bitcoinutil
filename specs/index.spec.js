@@ -65,3 +65,14 @@ describe("hash256", function () {
     })
   })
 })
+
+describe("verify message signature", function () {
+  fixtures["verify message sign"].forEach(function (test, i) {
+    it(i + ":", function () {
+      expect(bitcoinutil.signMessage(test.input.privateKey, test.input.message)).to.be.eql(test.expected.signature)
+      expect(bitcoinutil.verifyMessage(test.input.address1, test.input.signature, test.input.message)).to.be.eql(test.expected.verified1)
+      expect(bitcoinutil.verifyMessage(test.input.address1, test.input.signature, test.input.message + "added something more")).to.be(false)
+      expect(bitcoinutil.verifyMessage(test.input.address2, test.input.signature, test.input.message)).to.be.eql(test.expected.verified2)
+    })
+  })
+})

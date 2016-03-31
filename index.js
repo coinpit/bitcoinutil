@@ -85,6 +85,15 @@ module.exports = function (networkString) {
     return isIncomplete ? txb.buildIncomplete().toHex() : txb.build().toHex();
   }
 
+  bitcoinutil.signMessage = function(privateKeyWif, message){
+    var key  = bitcoin.ECPair.fromWIF(privateKeyWif, network)
+    return bitcoin.message.sign(key, message, network).toString("base64")
+  }
+
+  bitcoinutil.verifyMessage = function(address, signature, message){
+    return bitcoin.message.verify(address, signature, message, network)
+  }
+
   bitcoinutil.hash160 = function(input){
     return bitcoin.crypto.hash160(new Buffer(input, "utf8")).toString('hex')
   }

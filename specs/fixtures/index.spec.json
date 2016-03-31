@@ -1,19 +1,19 @@
 {
-  "address"  : {
+  "address"            : {
     "address"   : "mqRKqb2ZqpSgz9C674BELS1NCmcXG92Tn9",
     "privateKey": "cR5rEmyTSDNEutA6DqSjXsyLpmYoS2GvYgvcVGT33fHTqGV2pDxA",
     "publicKey" : "035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d34"
   },
-  "address1" : {
+  "address1"           : {
     "address"   : "mjsXa5HBdemtrjFZeLUB1D3NetupVNxFyN",
     "privateKey": "L56nAFJCUMuAUF1zp8e4Bhdq8S25kcFD5YrLTnys3ha8QK65dj8P",
     "publicKey" : "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483"
   },
-  "multisig" : {
+  "multisig"           : {
     "address": "2N4htmodeibCZVtLKRX9EFg8RGL4xdifi6x",
     "redeem" : "5221035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d342103abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb51548352ae"
   },
-  "sign"     : [
+  "sign"               : [
     {
       "tx"        : "0100000002d7c12bb892ab355aaf73e5db3239d3ac21b56d1f5ae24c7bbae5f0399e490ee3000000009300483045022100f11c9a07edaf2d5a70dd87ddfff6e0267ec52a9d005f8b2d38071f6015d6c486022039ad64f5531a20cc26b4f4f2ec03f2b4a778b29080cb291e2c1ce7b1d60f1d8a010047522103412ebbc808cc699cc0ece473718063cb432b26f26ac9fadab4129685cedaf3a0210206fe1322635c6c8554d83be5dc6e15d71eb97a7a8da6f9e28552b40b1400ab3452ae010000001b5ec683e9cfbf98fdef80923760c6fa16d80702aa99e1b8b7128a2eb4f7819f01000000920047304402202ea366e82b85896675aca17a1f8a3972fb46f6d83e2f572606cffa5ee4a6787502205e9a737a6fd8868e1494c89e6f45da0e86f392d8c05c10b55a85bda32127e5d7010047522103412ebbc808cc699cc0ece473718063cb432b26f26ac9fadab4129685cedaf3a0210206fe1322635c6c8554d83be5dc6e15d71eb97a7a8da6f9e28552b40b1400ab3452ae01000000022037ca1a000000001976a914a060b2960a4dea7e5cef355adf32f12da5c9a88388ac000000000000000017a91465dde05ec89ce5a6a47dd89a7322d685847f19dd8776597e55",
       "privateKey": "cTrKWCbfghVGByxy7DKc9StvHDzqZu87yXHbkqtYmZGD5SuiJGPf",
@@ -33,7 +33,7 @@
       "expected"  : "0100000002c51ddd0a3b355f8574182c3a80d2452f980b9d7af27bf40ac93dbca8d75baec707000000d90047304402205dc929211a0d702df646ecb29ed99f31283f70ad3a295d3fe20559fb80cee452022054b230136b7375f3993d48d7fbb6fb1dec6326a32ccb771abaa43bf8b5aa2415014730440220059b464b7b20ea2fa6bfc45ac3a5ca287b730838ba5156d2699ee734eda624b5022029e9242da24182e31a522e44b6df9218ffedf5a51bffe506637e715a62ccb4100147522102d324e7149836c05b66ae4d51ac1a708afb0ab6b72839bcbda14d1f246fb048282103fc7f0d5dbd6424f4bbcac83c53ae04eeebcae33684978432c4605c5cc69763f952aeffffffffc51ddd0a3b355f8574182c3a80d2452f980b9d7af27bf40ac93dbca8d75baec708000000db00483045022100b36e694994dbbdc947a369e457f217a017c7a927794b523634e76387d74c23b302207bc83499814fa94f048a1e5378f3511a17beb448edabf8984eaa4a7fa352cdca014830450221008ee15322a9c607a0c5d40d1ba4538293914c23d53cb5bd1e9119545ae87f0df4022028d9cf4e00754366a477ecd81199a3b7e7e4fda6601ab9bc9bbad6d5c7da3a170147522102d324e7149836c05b66ae4d51ac1a708afb0ab6b72839bcbda14d1f246fb048282103fc7f0d5dbd6424f4bbcac83c53ae04eeebcae33684978432c4605c5cc69763f952aeffffffff0260634f010000000017a914fcf9a0d37683360c1d0cc730032f951dc7a0dd808780b14f01000000001976a914f3da467e2631402606d339be190f7e11d6c78c1688ac00000000"
     }
   ],
-  "satoshify": [
+  "satoshify"          : [
     {
       "input"   : "147.16592338",
       "expected": 14716592338
@@ -51,7 +51,7 @@
       "expected": 2271458413
     }
   ],
-  "btcfy"    : [
+  "btcfy"              : [
     {
       "input"   : 43133113859,
       "expected": "431.33113859"
@@ -69,7 +69,7 @@
       "expected": "342.86460537"
     }
   ],
-  "hash160"  : [
+  "hash160"            : [
     {
       "input"   : "some long string 0",
       "expected": "7dbc6aae701cdaa2cc27a128393b1d4ff856809e"
@@ -102,7 +102,7 @@
       "expected": "1af475eb4a13af0fe627bee14f1341bee6b96dc3"
     }
   ],
-  "hash256"  : [
+  "hash256"            : [
     {
       "input"   : "some long string 0",
       "expected": "ddd93e6fd5a02b06cf99fa3e9c73be315173e322fe999167a70d858b6ce8b28e"
@@ -133,6 +133,74 @@
     }, {
       "input"   : "some long string 9",
       "expected": "8eb86e4c5679630a221f63da2fd1b0570c7ee129a8e746301b8474e697177b6c"
+    }
+  ],
+  "verify message sign": [
+    {
+      "input"   : {
+        "message"   : "{\"publicKey\":\"0207731ecd8f09d56fbca8534ccb40123a0303b010b55dd302be812a9b28fb7ca3\",\"country\":\"US\",\"ts\":1459397663100}",
+        "privateKey": "cREUpSJhVfMc4cD9CVANwWKqGPMyzGCLFHv8wCpV9dktSdKNtR9J",
+        "signature" : "H5buDmWdMvuGImdT2m6UPZxdoi9FLt6U8UsWdUSMI89DBtsOi6Jbbk/h7LhKhMBSSKpf4zKFHXWKNYI0WX0Sc5E=",
+        "address1"  : "mrWkfQxJBX8pFiV9pArU6Wttd3b2YpriHJ",
+        "address2"  : "mkCJ8MUAqNVCnb4bPaNUgyeGWF2E5vSQab"
+      },
+      "expected": {
+        "signature": "H5buDmWdMvuGImdT2m6UPZxdoi9FLt6U8UsWdUSMI89DBtsOi6Jbbk/h7LhKhMBSSKpf4zKFHXWKNYI0WX0Sc5E=",
+        "verified1": true,
+        "verified2": false
+      }
+    }, {
+      "input"   : {
+        "message"   : "{\"publicKey\":\"037b25207f1d4eaec9d68200f0b8e6919596c0b2710372d7ed3a33d07c53dc44a6\",\"country\":\"US\",\"ts\":1459397664400}",
+        "privateKey": "cVrr9zBqUcmXHscPo6bREhdqA2k6WMYXhm2KZFhXtFv25ptKjfeo",
+        "signature" : "H6OA8gRK1ckv4jzFPVAZVIFswEY6mpLjocGSJOPzyMy5YL0XT1fbW9psjNi9z1j0cDApn9bX9b/Kp20BiOt1Cho=",
+        "address1"  : "mw2HUqSq146YNnDCMfuuD76Ro18Ph6E5fh",
+        "address2"  : "moFpizTV5VzeHfo9vhW831rDS5khiL9DS2"
+      },
+      "expected": {
+        "signature": "H6OA8gRK1ckv4jzFPVAZVIFswEY6mpLjocGSJOPzyMy5YL0XT1fbW9psjNi9z1j0cDApn9bX9b/Kp20BiOt1Cho=",
+        "verified1": true,
+        "verified2": false
+      }
+    }, {
+      "input"   : {
+        "message"   : "{\"publicKey\":\"02100a5241aea66393aa04dd89170a88e9c1c96245e60ccbdf9ae717567af20154\",\"country\":\"US\",\"ts\":1459397664362}",
+        "privateKey": "cTmfhzqQpCsSxPU7DfSxFkUo95ejbp5kXE1qALBH5SG5GnfKAuon",
+        "signature" : "IL5LINQt171gxuP43uPtHOqjGCwxVF5rNqYgYcEh1A4lZFPeJgIedml/Nt4pMz1odsNPeG6Ui7X6kvf3fMs4LE4=",
+        "address1"  : "mxZGDNS7rTYQ9S9xU33vgEViZKsiF1u3c4",
+        "address2"  : "my7PcjtZq2QYk2cFQAW9JGqak58YJqiLNT"
+      },
+      "expected": {
+        "signature": "IL5LINQt171gxuP43uPtHOqjGCwxVF5rNqYgYcEh1A4lZFPeJgIedml/Nt4pMz1odsNPeG6Ui7X6kvf3fMs4LE4=",
+        "verified1": true,
+        "verified2": false
+      }
+    }, {
+      "input"   : {
+        "message"   : "{\"publicKey\":\"0239d0c51291ab134c296a45be53181d6ef054986dac3dc3b0f9654ff15234d966\",\"country\":\"US\",\"ts\":1459397665374}",
+        "privateKey": "cTzBHwwQd28T2LC4NfWF4yb13xmQHGttij2Aj3PXyGKF5uou8L39",
+        "signature" : "HzIzB3MzqhMG5wXINa6LYsEi5uMeZ08ZSiQPcVpdr5gNIeEs84lDtjwiMcZpefCVH/PfSBEJKLuE1Ucqpgj5Rnc=",
+        "address1"  : "mtg4pXrzuDn4f5gRp7Z36zkG1BcwKnDZNw",
+        "address2"  : "mx3Manrvg2zGz8eXFzecmAsME718pLFtg1"
+      },
+      "expected": {
+        "signature": "HzIzB3MzqhMG5wXINa6LYsEi5uMeZ08ZSiQPcVpdr5gNIeEs84lDtjwiMcZpefCVH/PfSBEJKLuE1Ucqpgj5Rnc=",
+        "verified1": true,
+        "verified2": false
+      }
+    }, {
+      "input"   : {
+        "message"   : "{\"publicKey\":\"02ff20b6696a0f7868f1f48564d691c34b1d3117017261e17cf31e65042e66d776\",\"country\":\"US\",\"ts\":1459397665992}",
+        "privateKey": "cSZyFPPdNA79Se7s2x96V64c5mgDimsQsKxyi799AXmPzXEApg9S",
+        "signature" : "IJUyTiMhlCh+ok1ka9lu+iDewWvOQxvmVZ4fNhqPYNwvJdmQyvJEfQ7tXWJU36EmRjyUfxZyDGcDkPTv4cZCPBY=",
+        "address1"  : "mrb1wE143Gm8wCsn7GXZVk7SrGipTfT9Y7",
+        "address2"  : "mqhb7WCJgM84PSs2D437eesenmdpPdYMJs"
+      },
+      "expected": {
+        "signature": "IJUyTiMhlCh+ok1ka9lu+iDewWvOQxvmVZ4fNhqPYNwvJdmQyvJEfQ7tXWJU36EmRjyUfxZyDGcDkPTv4cZCPBY=",
+        "verified1": true,
+        "verified2": false
+      }
     }
   ]
 }
