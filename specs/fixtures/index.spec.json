@@ -1,4 +1,10 @@
 {
+  "testnet" : {
+    "address" : "mqRKqb2ZqpSgz9C674BELS1NCmcXG92Tn9"
+  },
+  "bitcoin": {
+    "address" : "1AuNYXwb2o1SD2iUPVCrWWo3Ln1pK4jFW7"
+  },
   "address"            : {
     "address"   : "mqRKqb2ZqpSgz9C674BELS1NCmcXG92Tn9",
     "privateKey": "cR5rEmyTSDNEutA6DqSjXsyLpmYoS2GvYgvcVGT33fHTqGV2pDxA",

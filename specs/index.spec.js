@@ -2,30 +2,47 @@ var bitcoinutil = require("../index")('testnet')
 var expect      = require("expect.js")
 var fixtures    = require("fixtures.js")(__filename)
 
+describe("networks", function() {
+  it("should validate testnet", function() {
+    expect(bitcoinutil.toAddress(fixtures.address.publicKey)).to.be.eql(fixtures.testnet.address)
+  })
+
+  it("should validate bitcoin", function() {
+    var bitcoinutilLivenet = require("../index")('bitcoin')
+    expect(bitcoinutilLivenet.toAddress(fixtures.address.publicKey)).to.be.eql(fixtures.bitcoin.address)
+  })
+})
+
 describe("bitcoinutil", function () {
   it("is valid address", function () {
     expect(bitcoinutil.isValidBitcoinAddress(fixtures.address.address)).to.be.equal(true)
     expect(bitcoinutil.isValidBitcoinAddress(fixtures.address.address + 1)).to.be.equal(false)
   })
+
   it("toAddress", function () {
     expect(bitcoinutil.toAddress(fixtures.address.publicKey)).to.be.eql(fixtures.address.address)
   })
+
   it("make random", function () {
     var address = bitcoinutil.makeRandom()
     expect(bitcoinutil.isValidBitcoinAddress(address.address)).to.be.equal(true)
   })
+
   it("from private key", function () {
     var result = bitcoinutil.addressFromPrivateKey(fixtures.address.privateKey)
     expect(result).to.be.eql(fixtures.address)
   })
+
   it("getPublicKey", function () {
     var result = bitcoinutil.getPublicKey(fixtures.address.privateKey)
     expect(result).to.be.eql(fixtures.address.publicKey)
   })
+
   it("getMultisigAddress", function () {
     var result = bitcoinutil.getMultisigAddress(2, [fixtures.address.publicKey, fixtures.address1.publicKey])
     expect(result).to.be.eql(fixtures.multisig)
   })
+
   fixtures.sign.forEach(function (test, i) {
     it("sign " + i, function () {
       var result = bitcoinutil.sign(test.tx, test.privateKey, test.redeem, test.incomplete)
@@ -76,3 +93,4 @@ describe("verify message signature", function () {
     })
   })
 })
+

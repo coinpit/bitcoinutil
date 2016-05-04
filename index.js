@@ -7,7 +7,7 @@ var fixed   = require('mangler').fixed
 module.exports = function (networkString) {
 
   var bitcoinutil = {}
-  var network     = bitcoin.networks[networkString]
+  var network     = bitcoin.networks[networkString || 'bitcoin']
 
   bitcoinutil.isValidBitcoinAddress = function (address) {
     var buffer      = new Buffer(base58.decode(address))
