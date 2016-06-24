@@ -103,11 +103,12 @@ module.exports = function (networkString) {
   }
 
   bitcoinutil.satoshify = function (btc) {
+    btc = fixed(btc)
     return Math.floor(btc * 100000000)
   }
 
   bitcoinutil.btcfy = function (satoshi) {
-    satoshi = Math.floor(satoshi)
+    satoshi = Math.floor(fixed(satoshi))
     return fixed(satoshi / 100000000)
   }
 
