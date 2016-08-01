@@ -100,4 +100,7 @@ signature   : signature of message in base64 format
 message     : Message signed
 result true or false
 
+### bitcoinutil.getTxIdFromHex(tx)
+tx     : bitcoin transaction string represented in hex format 
+result txid as will be displayed on bitcoin network
 

@@ -83,6 +83,14 @@ describe("hash256", function () {
   })
 })
 
+describe("txidFromHex", function () {
+  fixtures.txidFromHex.forEach(function (test, i) {
+    it(i + ": txidFromHex", function () {
+      expect(bitcoinutil.getTxIdFromHex(test.input)).to.be.eql(test.expected)
+    })
+  })
+})
+
 describe("verify message signature", function () {
   fixtures["verify message sign"].forEach(function (test, i) {
     it(i + ":", function () {

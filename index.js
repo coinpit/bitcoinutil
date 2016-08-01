@@ -112,5 +112,10 @@ module.exports = function (networkString) {
     return fixed(satoshi / 100000000)
   }
 
+  bitcoinutil.getTxIdFromHex = function(tx){
+    var transaction =  bitcoin.Transaction.fromHex(tx)
+    return transaction.getId()
+  }
+
   return bitcoinutil
 }
