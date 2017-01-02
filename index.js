@@ -4,10 +4,9 @@ var assert  = require('assert')
 var base58  = require('bs58')
 var fixed   = require('mangler').fixed
 
-module.exports = function (networkString) {
+module.exports = (function () {
 
   var bitcoinutil = {}
-  var network     = bitcoin.networks[networkString || 'bitcoin']
 
   bitcoinutil.isValidBitcoinAddress = function (address) {
     var buffer      = new Buffer(base58.decode(address))
@@ -25,11 +24,27 @@ module.exports = function (networkString) {
     return crypto.createHash('sha256').update(buffer).digest()
   }
 
-  bitcoinutil.toAddress = function (publicKey) {
+  function getNetwork(network) {
+    return bitcoin.networks[network || 'bitcoin']
+  }
+
+  function inferNetworkFromPrivateKey(privateKeyWIF) {
+    var networkName = privateKeyWIF[0] == 'K' || privateKeyWIF[0] == 'L' ? 'bitcoin' : 'testnet'
+    return getNetwork(networkName)
+  }
+
+  function inferNetworkFromAddress(address) {
+    var networkName = address[0] == '1' ? 'bitcoin' : 'testnet'
+    return getNetwork(networkName)
+  }
+
+  bitcoinutil.toAddress = function (publicKey, network) {
+    var network = getNetwork(network)
     return bitcoin.ECPair.fromPublicKeyBuffer(fromHex(publicKey), network).getAddress()
   }
 
   bitcoinutil.addressFromPrivateKey = function (privateKey) {
+    var network = inferNetworkFromPrivateKey(privateKey)
     var key = bitcoin.ECPair.fromWIF(privateKey, network)
     return makeAddress(key)
   }
@@ -42,13 +57,15 @@ module.exports = function (networkString) {
     }
   }
 
-  bitcoinutil.makeRandom = function () {
+  bitcoinutil.makeRandom = function (networkName) {
+    var network = getNetwork(networkName)
     var key     = bitcoin.ECPair.makeRandom()
     key.network = network
     return makeAddress(key)
   }
 
   bitcoinutil.getPublicKey = function (privateKey) {
+    var network = inferNetworkFromPrivateKey(privateKey)
     var myPrivateKey = bitcoin.ECPair.fromWIF(privateKey, network)
     return toHex(myPrivateKey.getPublicKeyBuffer())
   }
@@ -62,6 +79,7 @@ module.exports = function (networkString) {
   }
 
   bitcoinutil.getMultisigAddress = function (n, addresses) {
+    var network = inferNetworkFromAddress(addresses[0])
     addresses           = Buffer.isBuffer(addresses[0]) ? addresses : addresses.sort();
     var addressBuffer    = addresses.map(function (address) {
       return Buffer.isBuffer(address) ? address : fromHex(address)
@@ -75,6 +93,7 @@ module.exports = function (networkString) {
   bitcoinutil.sign = function (txhex, privateKeyWIF, redeemHex, isIncomplete) {
     assert(txhex, "txhex is required")
     assert(privateKeyWIF, "privateKey is required")
+    var network = inferNetworkFromPrivateKey(privateKeyWIF)
     var tx     = bitcoin.Transaction.fromHex(txhex)
     var txb    = bitcoin.TransactionBuilder.fromTransaction(tx, network)
     var redeem = redeemHex && fromHex(redeemHex)
@@ -85,12 +104,14 @@ module.exports = function (networkString) {
     return isIncomplete ? txb.buildIncomplete().toHex() : txb.build().toHex();
   }
 
-  bitcoinutil.signMessage = function(privateKeyWif, message){
-    var key  = bitcoin.ECPair.fromWIF(privateKeyWif, network)
+  bitcoinutil.signMessage = function(privateKeyWIF, message){
+    var network = inferNetworkFromPrivateKey(privateKeyWIF)
+    var key  = bitcoin.ECPair.fromWIF(privateKeyWIF, network)
     return bitcoin.message.sign(key, message, network).toString("base64")
   }
 
   bitcoinutil.verifyMessage = function(address, signature, message){
+    var network = inferNetworkFromAddress(address)
     return bitcoin.message.verify(address, signature, message, network)
   }
 
@@ -118,4 +139,4 @@ module.exports = function (networkString) {
   }
 
   return bitcoinutil
-}
+})()

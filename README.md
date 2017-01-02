@@ -1,6 +1,6 @@
 [![Circle CI](https://circleci.com/gh/coinpit/bitcoinutil.svg?style=shield)](https://circleci.com/gh/coinpit/bitcoinutil)
 
-# bitcoinutil 
+# bitcoinutil
 Commonly used bitcoin functions
 
 ## install
@@ -9,21 +9,16 @@ npm install bitcoinutil --save
 ```
 
 ## import
-### testnet
 ```
-var bitcoinutil = require("bitcoinutil")("testnet")
-```
-### livenet
-```
-var bitcoinutil = require("bitcoinutil")("bitcoin")
+var bitcoinutil = require("bitcoinutil")
 ```
 
 ## methods
 ### bitcoinutil.isValidBitcoinAddress(address)
 address: public key in base58 format
-returns: true for valid address 
+returns: true for valid address
 
-### bitcoinutil.toAddress(publicKey)
+### bitcoinutil.toAddress(publicKey, 'testnet') or bitcoinutil.toAddress()
 publicKey: public key in base58 format
 returns  : public key in hex format
 
@@ -45,7 +40,7 @@ bitcoinutil.addressFromPrivateKey(priv)
 }
 ```
 
-### bitcoinutil.makeRandom()
+### bitcoinutil.makeRandom('testnet') or bitcoinutil.makeRandom()
 generates random key and return address, privateKey and publicKey in an object
 #### result
 ```
@@ -57,12 +52,12 @@ generates random key and return address, privateKey and publicKey in an object
 ```
 
 ###  bitcoinutil.getMultisigAddress(m, publicKeys)
-creates m of n multisig address from n public keys in hex format 
+creates m of n multisig address from n public keys in hex format
 #### example (2 of 2)
 ```javascript
-var publicKeys = ["035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d34", "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483"] 
+var publicKeys = ["035da95734281849a327dea6402bd9c19f49bdd5b04f1cbb3136512984ec7b8d34", "03abeb481466887c35e046de4b504a029e03bd3a5e35b03c67fe7821f5fb515483"]
 bitcoinutil.getMultisigAddress(2, publicKeys)
-``` 
+```
 #### result
 ```
 {
@@ -90,17 +85,16 @@ returns ripemd160 of sha256(input)
 returns sha256 of sha256(input)
 
 ### bitcoinutil.signMessage(privateKey, message)
-privateKey  : private key in wif format used for signing 
+privateKey  : private key in wif format used for signing
 message     : Message to be signed
 returns signature in base64 format
 
 ### bitcoinutil.verifyMessage(address, signature, message)
-address     : bitcoin address of the private key used in signing the message 
-signature   : signature of message in base64 format 
+address     : bitcoin address of the private key used in signing the message
+signature   : signature of message in base64 format
 message     : Message signed
 result true or false
 
 ### bitcoinutil.getTxIdFromHex(tx)
-tx     : bitcoin transaction string represented in hex format 
+tx     : bitcoin transaction string represented in hex format
 result txid as will be displayed on bitcoin network
-

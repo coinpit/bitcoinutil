@@ -1,15 +1,14 @@
-var bitcoinutil = require("../index")('testnet')
+var bitcoinutil = require("../index")
 var expect      = require("expect.js")
 var fixtures    = require("fixtures.js")(__filename)
 
 describe("networks", function() {
   it("should validate testnet", function() {
-    expect(bitcoinutil.toAddress(fixtures.address.publicKey)).to.be.eql(fixtures.testnet.address)
+    expect(bitcoinutil.toAddress(fixtures.address.publicKey, 'testnet')).to.be.eql(fixtures.testnet.address)
   })
 
   it("should validate bitcoin", function() {
-    var bitcoinutilLivenet = require("../index")('bitcoin')
-    expect(bitcoinutilLivenet.toAddress(fixtures.address.publicKey)).to.be.eql(fixtures.bitcoin.address)
+    expect(bitcoinutil.toAddress(fixtures.address.publicKey, 'bitcoin')).to.be.eql(fixtures.bitcoin.address)
   })
 })
 
@@ -20,11 +19,11 @@ describe("bitcoinutil", function () {
   })
 
   it("toAddress", function () {
-    expect(bitcoinutil.toAddress(fixtures.address.publicKey)).to.be.eql(fixtures.address.address)
+    expect(bitcoinutil.toAddress(fixtures.address.publicKey, 'testnet')).to.be.eql(fixtures.address.address)
   })
 
   it("make random", function () {
-    var address = bitcoinutil.makeRandom()
+    var address = bitcoinutil.makeRandom('testnet')
     expect(bitcoinutil.isValidBitcoinAddress(address.address)).to.be.equal(true)
   })
 
@@ -101,4 +100,3 @@ describe("verify message signature", function () {
     })
   })
 })
-
