@@ -38,8 +38,13 @@ describe("bitcoinutil", function () {
   })
 
   it("getMultisigAddress", function () {
-    var result = bitcoinutil.getMultisigAddress(2, [fixtures.address.publicKey, fixtures.address1.publicKey])
+    var result = bitcoinutil.getMultisigAddress(2, [fixtures.address.publicKey, fixtures.address1.publicKey], "testnet")
     expect(result).to.be.eql(fixtures.multisig)
+  })
+
+  it("getMultisigAddress for livenet", function () {
+    var result = bitcoinutil.getMultisigAddress(2, [fixtures.liveAddress.publicKey, fixtures.liveAddress1.publicKey], "bitcoin")
+    expect(result).to.be.eql(fixtures.liveMultisig)
   })
 
   fixtures.sign.forEach(function (test, i) {
