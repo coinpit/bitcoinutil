@@ -1,6 +1,6 @@
 {
   "name": "bitcoinutil",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "commonly used bitcoin functions",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,8 @@
     "affirm.js": "^1.0.0",
     "bitcoinjs-lib": "^2.1.4",
     "bs58": "^3.0.0",
-    "mangler": "^1.0.1"
+    "mangler": "^1.0.1",
+    "sinful-math.js": "0.0.2"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

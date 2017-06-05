@@ -3,6 +3,7 @@ var crypto  = require('crypto')
 var affirm  = require('affirm.js')
 var base58  = require('bs58')
 var fixed   = require('mangler').fixed
+var sinful  = require('sinful-math.js')
 
 module.exports = (function () {
 
@@ -29,17 +30,17 @@ module.exports = (function () {
   }
 
   function inferNetworkFromPrivateKey(privateKeyWIF) {
-    var networkName = privateKeyWIF[0] == 'K' || privateKeyWIF[0] == 'L' ? 'bitcoin' : 'testnet'
+    var networkName = privateKeyWIF[0] === 'K' || privateKeyWIF[0] === 'L' ? 'bitcoin' : 'testnet'
     return getNetwork(networkName)
   }
 
   function inferNetworkFromAddress(address) {
-    var networkName = address[0] == '1' ? 'bitcoin' : 'testnet'
+    var networkName = address[0] === '1' ? 'bitcoin' : 'testnet'
     return getNetwork(networkName)
   }
 
   bitcoinutil.toAddress = function (publicKey, network) {
-    var network = getNetwork(network)
+    network = getNetwork(network)
     return bitcoin.ECPair.fromPublicKeyBuffer(fromHex(publicKey), network).getAddress()
   }
 
@@ -81,7 +82,7 @@ module.exports = (function () {
   bitcoinutil.getMultisigAddress = function (n, publickeys, networkName) {
     affirm(networkName, 'Please provide network. possible values are "bitcoin" and "testnet".')
     var network         = getNetwork(networkName)
-    publickeys           = Buffer.isBuffer(publickeys[0]) ? publickeys : publickeys.sort();
+    publickeys          = Buffer.isBuffer(publickeys[0]) ? publickeys : publickeys.sort();
     var addressBuffer   = publickeys.map(function (address) {
       return Buffer.isBuffer(address) ? address : fromHex(address)
     })
@@ -125,13 +126,13 @@ module.exports = (function () {
   }
 
   bitcoinutil.satoshify = function (btc) {
-    btc = fixed(btc)
-    return Math.floor(btc * 100000000)
+    // btc = fixed(btc)
+    return Math.floor(sinful.mul(btc , 100000000))
   }
 
   bitcoinutil.btcfy = function (satoshi) {
-    satoshi = Math.floor(fixed(satoshi))
-    return fixed(satoshi / 100000000)
+    satoshi = Math.floor(satoshi)
+    return sinful.div(satoshi , 100000000)
   }
 
   bitcoinutil.getTxIdFromHex = function (tx) {
