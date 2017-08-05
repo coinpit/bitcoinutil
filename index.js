@@ -127,11 +127,11 @@ module.exports = (function () {
 
   bitcoinutil.satoshify = function (btc) {
     // btc = fixed(btc)
-    return Math.floor(sinful.mul(btc , 100000000))
+    return Math.round(sinful.mul(btc , 100000000))
   }
 
   bitcoinutil.btcfy = function (satoshi) {
-    satoshi = Math.floor(satoshi)
+    satoshi = Math.round(satoshi)
     return sinful.div(satoshi , 100000000)
   }
 

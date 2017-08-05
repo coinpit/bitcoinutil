@@ -57,7 +57,7 @@ describe("bitcoinutil", function () {
 
 describe("satoshify", function () {
   fixtures.satoshify.forEach(function (test, i) {
-    it("btc " + test.input + " to sat " + test.expected, function () {
+    it(i + ": btc " + test.input + " to sat " + test.expected, function () {
       expect(bitcoinutil.satoshify(test.input)).to.be.eql(test.expected)
     })
   })
@@ -65,7 +65,7 @@ describe("satoshify", function () {
 
 describe("btcfy", function () {
   fixtures.btcfy.forEach(function (test, i) {
-    it("sat " + test.input + " to btc " + test.expected, function () {
+    it(i + ": sat " + test.input + " to btc " + test.expected, function () {
       expect(bitcoinutil.btcfy(test.input)).to.be.eql(test.expected)
     })
   })
